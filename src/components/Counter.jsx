@@ -1,30 +1,40 @@
-import { Component } from "react";
 import classes from "./Counter.module.css";
 import { useSelector, useDispatch } from "react-redux";
+
+import { toggle_count } from "../store";
+import { inc, dec, inc_10 } from "../store";
+
 const Counter = () => {
   const dispatch = useDispatch();
-  const counter = useSelector((state) => state.counter);
+  const counter = useSelector((state) => state.counterr.counter);
+  const display = useSelector((state) => state.toggle.display);
 
   const incHandler = () => {
-    console.log(counter);
-    dispatch({ type: "INC" });
+    dispatch(inc());
   };
   const decHandler = () => {
-    console.log(counter);
-    dispatch({ type: "DEC" });
+    dispatch(dec());
   };
 
-  const toggleCounterHandler = () => {};
+  const toggleCounterHandler = () => {
+    dispatch(toggle_count());
+  };
+  const increaseHandler = () => {
+    dispatch(inc_10(10));
+  };
 
   return (
     <main className={classes.counter}>
       <h1>Redux Counter</h1>
-      <div className={classes.value}>-- {counter} --</div>
+      {display && <div className={classes.value}>-- {counter} --</div>}
       <div>
         <button onClick={incHandler}>Inc</button>
+        <button onClick={increaseHandler}>Inc by 10</button>
         <button onClick={decHandler}>Dec</button>
       </div>
-      <button onClick={toggleCounterHandler}>Toggle Counter</button>
+      <button onClick={toggleCounterHandler}>
+        {display ? "Hide" : "Show"} counter
+      </button>
     </main>
   );
 };
